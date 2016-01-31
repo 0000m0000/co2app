@@ -43,25 +43,20 @@
     <!-- SLIDES -->
     <slide class="" id="slide-1" style="background:;">
   <hgroup>
-    <h2>Introduction</h2>
-  </hgroup>
-  <article data-timings="">
-    <ol>
-<li>Edit YAML front matter</li>
-<li>Write using R Markdown</li>
-<li>Use an empty line followed by three dashes to separate slides!</li>
-</ol>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="class" id="id" style="background:;">
-  <hgroup>
     <h2>Slide 2</h2>
   </hgroup>
   <article data-timings="">
-    
+    <h3>Introduction</h3>
+
+<p>The app here developed allows you to easily <strong>calculate the CO2 emissions equivalent from waste production</strong> per year, at the net of recycling habits. This is based on a part of the EPA model for calculation of individual emissions.  </p>
+
+<h3>Inputs</h3>
+
+<ul>
+<li><p><strong>Number of people (household)</strong>: enter the number of people in the household, which is a base for the estimation of emissions. </p></li>
+<li><p><strong>Which items or products are usually recycled</strong>: check the boxes corresponding to what is usually being recycled in the household. </p></li>
+</ul>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -71,7 +66,26 @@
     <h2>Slide 3</h2>
   </hgroup>
   <article data-timings="">
-    
+    <h3>Model</h3>
+
+<p>The model apply an average coefficient of C02 emission per year pro capite.
+This is reduced by a coefficient for each of the products recycled.</p>
+
+<pre><code class="r">average_waste_emissions &lt;- 692 # (Pounds of carbon dioxide equivalent/year)
+print(average_waste_emissions)
+</code></pre>
+
+<pre><code>## [1] 692
+</code></pre>
+
+<pre><code class="r"># constant pro capite
+metal_recycling_avoided_emissions&lt;-(-89.38)
+plastic_recycling_avoided_emissions&lt;-(-35.56)
+glass_recycling_avoided_emissions&lt;-(-25.39)
+newspaper_recycling_avoided_emissions&lt;-(-113.14)
+mag_recycling_avoided_emissions&lt;-(-27.46)
+</code></pre>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -81,7 +95,23 @@
     <h2>Slide 4</h2>
   </hgroup>
   <article data-timings="">
-    
+    <p>The calculation (actual part of a bigger model from EPA) is then a function based on the variables and our inputs.</p>
+
+<pre><code class="r"># id1 = number of people in household, recX = if a given material is recycled
+totalWasteEmissions &lt;- function(id1, rec1, rec2, rec3, rec4, rec5) {
+
+  sum_temp&lt;- id1*(average_waste_emissions +
+  rec1*metal_recycling_avoided_emissions +
+  rec2*plastic_recycling_avoided_emissions +  
+  rec3*glass_recycling_avoided_emissions +
+  rec4*newspaper_recycling_avoided_emissions +
+  rec5*mag_recycling_avoided_emissions)
+
+  if(sum_temp&gt;0) sum_temp
+  else 0
+}
+</code></pre>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -91,7 +121,14 @@
     <h2>Slide 5</h2>
   </hgroup>
   <article data-timings="">
-    
+    <h3>Notes</h3>
+
+<p>Average lbs CO2 equivalent generated from waste per person per year 692 lbs CO2e/year/person from waste. 
+Based on <em>EPA&#39;s Inventory of U.S. Greenhouse Gas Emissions and Sinks 1990-2011</em>,Chapter 8 (Waste), Table 8-3 and Chapter 3, Table 3-1, and <em>EPA&#39;s annual Municipal Solid Waste Characterization Report: Facts and Figures, 2011.</em><br>
+  For more details see:<br>
+    <a href="http://www3.epa.gov/climatechange/ghgemissions/individual.html">http://www3.epa.gov/climatechange/ghgemissions/individual.html</a><br>
+    <a href="https://github.com/0000m0000/co2app">https://github.com/0000m0000/co2app</a>  </p>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -102,32 +139,26 @@
     <ul>
       <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=1 title='Introduction'>
+        data-slide=1 title='Slide 2'>
          1
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='Slide 2'>
+        data-slide=2 title='Slide 3'>
          2
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='Slide 3'>
+        data-slide=3 title='Slide 4'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='Slide 4'>
+        data-slide=4 title='Slide 5'>
          4
-      </a>
-    </li>
-    <li>
-      <a href="#" target="_self" rel='tooltip' 
-        data-slide=5 title='Slide 5'>
-         5
       </a>
     </li>
   </ul>
